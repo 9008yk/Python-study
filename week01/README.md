@@ -4,7 +4,7 @@
 
 ## 每日任务
 
-- [ ] Day 1：运行 `hello.py`，理解 `print()` 和字符串
+- [x] Day 1：运行 `hello.py`，理解 `print()` 和字符串
 - [ ] Day 2：变量、整数、浮点数、字符串拼接、f-string
 - [ ] Day 3：`if / elif / else`，写一个简单的成绩判断
 - [ ] Day 4：`for` 和 `while` 循环，写一个 1 到 100 求和
