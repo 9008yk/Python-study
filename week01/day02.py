@@ -32,9 +32,9 @@ print(f"我是{my_name}，今年{my_age}岁，身高{my_height}米")
 
 # 练习 2：计算购物总价
 price = 25.5
-quantity = 3
-total = price * quantity
-print(f"单价{price}元，买了{quantity}个，共{total}元")
+quantity1 = 3
+total = price * quantity1
+print(f"单价{price}元，买了{quantity1}个，共{total}元")
 
 # 练习 3：摄氏温度转华氏温度，公式 F = C * 9 / 5 + 32
 celsius = 26
