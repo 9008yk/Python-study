@@ -23,3 +23,9 @@ my_name = "你的名字"
 my_hobby = "写代码"
 my_goal = "做出自己的第一个项目"
 print(f"我是{my_name}，喜欢{my_hobby}，{my_goal}。")
+
+xuexi = "学习 Python"
+print(f"nishi怂包{xuexi}");
+
+learning="是的"
+print("学习很苦",learning);
