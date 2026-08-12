@@ -5,7 +5,7 @@
 ## 每日任务
 
 - [x] Day 8：异常处理 `try / except / else / finally`
-- [ ] Day 9：列表推导式和 `lambda`
+- [x] Day 9：列表推导式和 `lambda`
 - [ ] Day 10：类和对象
 - [ ] Day 11：模块、`pip` 和虚拟环境
 - [ ] Day 12：单元测试 `pytest`
