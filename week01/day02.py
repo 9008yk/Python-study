@@ -46,3 +46,4 @@ weight = 65
 height_m = 1.75
 bmi = weight / (height_m ** 2)
 print(f"BMI 是 {bmi:.2f}")
+print(f"BMI 是 {bmi:.0f}")
