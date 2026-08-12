@@ -54,3 +54,11 @@ elif user_score >= 60:
     print("及格")
 else:
     print("不及格")
+
+height=175
+if height>=1.7:
+    print("身高正常")
+elif height>1.6:
+    print("身高偏矮")
+else:
+    print("身高偏矮")
