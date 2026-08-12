@@ -1,3 +1,2 @@
-# 这里记录第三方库，例如：
-# requests
-# pytest
+# 这里记录第三方库
+pytest

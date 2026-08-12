@@ -7,7 +7,7 @@
 - [x] Day 8：异常处理 `try / except / else / finally`
 - [x] Day 9：列表推导式和 `lambda`
 - [x] Day 10：类和对象
-- [ ] Day 11：模块、`pip` 和虚拟环境
+- [x] Day 11：模块、`pip` 和虚拟环境
 - [ ] Day 12：单元测试 `pytest`
 - [ ] Day 13~14：综合任务，把待办清单升级成 V2
 
