@@ -6,7 +6,7 @@
 
 - [x] Day 1：运行 `hello.py`，理解 `print()` 和字符串
 - [x] Day 2：变量、整数、浮点数、字符串拼接、f-string
-- [ ] Day 3：`if / elif / else`，写一个简单的成绩判断
+- [x] Day 3：`if / elif / else`，写一个简单的成绩判断
 - [ ] Day 4：`for` 和 `while` 循环，写一个 1 到 100 求和
 - [ ] Day 5：列表和字典，完成 `exercises.py` 里的练习
 - [ ] Day 6：函数定义、参数、返回值
