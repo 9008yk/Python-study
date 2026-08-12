@@ -1,2 +1,5 @@
 # 这里记录第三方库
 pytest
+fastapi
+uvicorn
+httpx
