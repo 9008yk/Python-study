@@ -16,6 +16,15 @@ def init_db():
         )
         """
     )
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL
+        )
+        """
+    )
     conn.commit()
 
 
@@ -76,3 +85,25 @@ def update_todo(todo_id, data):
 def delete_todo(todo_id):
     conn.execute("DELETE FROM todos WHERE id = ?", (todo_id,))
     conn.commit()
+
+
+def create_user(username, password_hash):
+    try:
+        cur = conn.execute(
+            "INSERT INTO users (username, password_hash) VALUES (?, ?)",
+            (username, password_hash),
+        )
+        conn.commit()
+        return cur.lastrowid
+    except sqlite3.IntegrityError:
+        return None
+
+
+def get_user_by_username(username):
+    row = conn.execute(
+        "SELECT id, username, password_hash FROM users WHERE username = ?",
+        (username,),
+    ).fetchone()
+    if row is None:
+        return None
+    return {"id": row[0], "username": row[1], "password_hash": row[2]}

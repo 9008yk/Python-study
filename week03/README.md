@@ -7,8 +7,9 @@
 - [x] Day 15：FastAPI 入门，GET / POST 接口
 - [x] Day 16：路径参数、查询参数和请求体
 - [x] Day 17：SQLite 数据库
-- [ ] Day 18（后端版）：response_model、状态码和 tags
-- [ ] Day 19~21：综合项目：一个完整的待办 Web 应用
+- [x] Day 18（后端版）：response_model、状态码和 tags
+- [ ] Day 19：用户注册、登录和 JWT 认证
+- [ ] Day 20~21：综合项目：待办绑定用户
 
 ## 完成标准
 

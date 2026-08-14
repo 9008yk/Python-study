@@ -85,3 +85,52 @@ def test_delete_todo(client):
     response = client.delete("/todos/1")
     assert response.status_code == 204
     assert client.get("/todos/1").status_code == 404
+
+
+def test_register(client):
+    response = client.post(
+        "/auth/register",
+        json={"username": "xiaoming", "password": "secret123"},
+    )
+    assert response.status_code == 201
+    assert response.json()["username"] == "xiaoming"
+
+
+def test_register_duplicate(client):
+    data = {"username": "xiaoming", "password": "secret123"}
+    client.post("/auth/register", json=data)
+    response = client.post("/auth/register", json=data)
+    assert response.status_code == 400
+
+
+def test_login_and_me(client):
+    client.post(
+        "/auth/register",
+        json={"username": "xiaoming", "password": "secret123"},
+    )
+    response = client.post(
+        "/auth/login",
+        json={"username": "xiaoming", "password": "secret123"},
+    )
+    assert response.status_code == 200
+    token = response.json()["access_token"]
+    me = client.get("/auth/me", headers={"Authorization": f"Bearer {token}"})
+    assert me.status_code == 200
+    assert me.json()["username"] == "xiaoming"
+
+
+def test_login_wrong_password(client):
+    client.post(
+        "/auth/register",
+        json={"username": "xiaoming", "password": "secret123"},
+    )
+    response = client.post(
+        "/auth/login",
+        json={"username": "xiaoming", "password": "wrong123"},
+    )
+    assert response.status_code == 401
+
+
+def test_me_without_token(client):
+    response = client.get("/auth/me")
+    assert response.status_code == 401
