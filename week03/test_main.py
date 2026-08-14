@@ -25,7 +25,7 @@ def test_root(client):
 
 def test_create_todo(client):
     response = client.post("/todos", json={"task": "学习 FastAPI"})
-    assert response.status_code == 200
+    assert response.status_code == 201
     data = response.json()
     assert data["task"] == "学习 FastAPI"
     assert data["done"] is False
