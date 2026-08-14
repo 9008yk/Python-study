@@ -29,6 +29,7 @@ numbers = [10, 20, 30, 40, 50]
 print(numbers[1:4])    # 从下标 1 到 3
 print(numbers[:3])     # 前三个
 print(numbers[::2])    # 隔一个取一个
+print(numbers[0:4:3])
 
 print()
 print("===== 字典 dict =====")
@@ -48,7 +49,7 @@ for key in student:
 
 for key, value in student.items():
     print(f"{key}: {value}")
-
+    
 print()
 print("===== 练习 1：统计成绩 =====")
 scores = {"语文": 90, "数学": 85, "英语": 88}

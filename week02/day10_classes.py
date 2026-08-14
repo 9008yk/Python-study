@@ -22,6 +22,8 @@ dog1 = Dog("旺财")
 dog2 = Dog("来福")
 print(dog1.bark())
 print(dog2.bark())
+print(dog1.name)
+print(dog2.__init__("来福"))
 
 print()
 print("===== 带更多属性的类 =====")
