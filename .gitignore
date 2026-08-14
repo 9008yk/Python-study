@@ -18,3 +18,5 @@ Thumbs.db
 *.log
 *.tmp
 todo.txt
+todos.db
+*.db

@@ -1,15 +1,19 @@
 """FastAPI 待办 API 的 pytest 测试。"""
 
+import sqlite3
+
 import pytest
 from fastapi.testclient import TestClient
 
+import database
 import main
 
 
 @pytest.fixture()
 def client():
-    main.todos.clear()
-    main.next_id = 1
+    database.conn.close()
+    database.conn = sqlite3.connect(":memory:", check_same_thread=False)
+    database.init_db()
     return TestClient(main.app)
 
 

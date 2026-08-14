@@ -5,7 +5,7 @@
 ## 每日任务
 
 - [x] Day 15：FastAPI 入门，GET / POST 接口
-- [ ] Day 16：路径参数、查询参数和请求体
+- [x] Day 16：路径参数、查询参数和请求体
 - [ ] Day 17：SQLite 数据库
 - [ ] Day 18：HTML 页面调用 API
 - [ ] Day 19~21：综合项目：一个完整的待办 Web 应用
