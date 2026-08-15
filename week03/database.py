@@ -86,7 +86,7 @@ def delete_todo(todo_id):
     conn.execute("DELETE FROM todos WHERE id = ?", (todo_id,))
     conn.commit()
 
-
+# 注册用户,返回用户 ID
 def create_user(username, password_hash):
     try:
         cur = conn.execute(
@@ -98,7 +98,7 @@ def create_user(username, password_hash):
     except sqlite3.IntegrityError:
         return None
 
-
+# 根据用户名查询用户,返回带有哈希密码的用户信息
 def get_user_by_username(username):
     row = conn.execute(
         "SELECT id, username, password_hash FROM users WHERE username = ?",

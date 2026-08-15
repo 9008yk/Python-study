@@ -60,7 +60,7 @@ def get_todo_or_404(todo_id: int) -> dict:
         raise HTTPException(status_code=404, detail="找不到这个待办")
     return todo
 
-
+# 解析 token、查数据库、判断是否有效、返回用户信息
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
 ) -> dict:
