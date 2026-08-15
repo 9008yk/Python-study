@@ -18,7 +18,7 @@ tags_metadata = [
     {"name": "auth", "description": "用户注册和登录"},
 ]
 
-app = FastAPI(title="Todo API", version="0.3.0", openapi_tags=tags_metadata)
+app = FastAPI(title="Todo API", version="0.4.0", openapi_tags=tags_metadata)
 database.init_db()
 bearer_scheme = HTTPBearer()
 
@@ -54,8 +54,8 @@ class TokenOut(BaseModel):
     token_type: str = "bearer"
 
 
-def get_todo_or_404(todo_id: int) -> dict:
-    todo = database.get_todo(todo_id)
+def get_todo_or_404(todo_id: int, user_id: int) -> dict:
+    todo = database.get_todo(todo_id, user_id)
     if todo is None:
         raise HTTPException(status_code=404, detail="找不到这个待办")
     return todo
@@ -111,34 +111,53 @@ def me(current_user: dict = Depends(get_current_user)):
 # 待办列表路径,学习查询参数和分页参数
 @app.get("/todos", response_model=list[TodoOut], tags=["todos"])
 def list_todos(
+    current_user: dict = Depends(get_current_user),
     done: bool | None = Query(default=None, description="按完成状态过滤"),
     limit: int = Query(default=10, ge=1, le=100),
 ):
-    return database.list_todos(done=done, limit=limit)
+    return database.list_todos(done=done, limit=limit, user_id=current_user["id"])
 
 
 # 创建待办路径
 @app.post("/todos", response_model=TodoOut, status_code=201, tags=["todos"])
-def create_todo(item: TodoCreate):
-    return database.create_todo(task=item.task, done=item.done)
+def create_todo(item: TodoCreate, current_user: dict = Depends(get_current_user)):
+    return database.create_todo(
+        task=item.task,
+        done=item.done,
+        user_id=current_user["id"],
+    )
 
 
 # 获取待办路径,学习路径参数
 @app.get("/todos/{todo_id}", response_model=TodoOut, tags=["todos"])
-def get_todo(todo_id: int = Path(..., ge=1)):
-    return get_todo_or_404(todo_id)
+def get_todo(
+    todo_id: int = Path(..., ge=1),
+    current_user: dict = Depends(get_current_user),
+):
+    return get_todo_or_404(todo_id, current_user["id"])
 
 
 # 更新待办路径
 @app.put("/todos/{todo_id}", response_model=TodoOut, tags=["todos"])
-def update_todo(todo_id: int, item: TodoUpdate):
-    get_todo_or_404(todo_id)
+def update_todo(
+    todo_id: int,
+    item: TodoUpdate,
+    current_user: dict = Depends(get_current_user),
+):
+    get_todo_or_404(todo_id, current_user["id"])
     data = item.model_dump(exclude_unset=True)
-    return database.update_todo(todo_id=todo_id, data=data)
+    return database.update_todo(
+        todo_id=todo_id,
+        data=data,
+        user_id=current_user["id"],
+    )
 
 
 # 删除待办路径
 @app.delete("/todos/{todo_id}", status_code=204, tags=["todos"])
-def delete_todo(todo_id: int):
-    get_todo_or_404(todo_id)
-    database.delete_todo(todo_id)
+def delete_todo(
+    todo_id: int,
+    current_user: dict = Depends(get_current_user),
+):
+    get_todo_or_404(todo_id, current_user["id"])
+    database.delete_todo(todo_id, current_user["id"])

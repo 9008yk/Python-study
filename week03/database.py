@@ -12,7 +12,8 @@ def init_db():
         CREATE TABLE IF NOT EXISTS todos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             task TEXT NOT NULL,
-            done INTEGER NOT NULL DEFAULT 0
+            done INTEGER NOT NULL DEFAULT 0,
+            user_id INTEGER
         )
         """
     )
@@ -25,6 +26,9 @@ def init_db():
         )
         """
     )
+    columns = [row[1] for row in conn.execute("PRAGMA table_info(todos)").fetchall()]
+    if "user_id" not in columns:
+        conn.execute("ALTER TABLE todos ADD COLUMN user_id INTEGER")
     conn.commit()
 
 
@@ -32,20 +36,20 @@ def row_to_todo(row):
     return {"id": row[0], "task": row[1], "done": bool(row[2])}
 
 
-def create_todo(task, done=False):
+def create_todo(task, done=False, user_id=None):
     cur = conn.execute(
-        "INSERT INTO todos (task, done) VALUES (?, ?)",
-        (task, int(done)),
+        "INSERT INTO todos (task, done, user_id) VALUES (?, ?, ?)",
+        (task, int(done), user_id),
     )
     conn.commit()
-    return get_todo(cur.lastrowid)
+    return get_todo(cur.lastrowid, user_id)
 
 
-def list_todos(done=None, limit=10):
-    sql = "SELECT id, task, done FROM todos"
-    params = []
+def list_todos(done=None, limit=10, user_id=None):
+    sql = "SELECT id, task, done FROM todos WHERE user_id = ?"
+    params = [user_id]
     if done is not None:
-        sql += " WHERE done = ?"
+        sql += " AND done = ?"
         params.append(int(done))
     sql += " ORDER BY id LIMIT ?"
     params.append(limit)
@@ -53,17 +57,17 @@ def list_todos(done=None, limit=10):
     return [row_to_todo(row) for row in rows]
 
 
-def get_todo(todo_id):
+def get_todo(todo_id, user_id=None):
     row = conn.execute(
-        "SELECT id, task, done FROM todos WHERE id = ?",
-        (todo_id,),
+        "SELECT id, task, done FROM todos WHERE id = ? AND user_id = ?",
+        (todo_id, user_id),
     ).fetchone()
     if row is None:
         return None
     return row_to_todo(row)
 
 
-def update_todo(todo_id, data):
+def update_todo(todo_id, data, user_id=None):
     fields = []
     values = []
     if "task" in data:
@@ -73,17 +77,20 @@ def update_todo(todo_id, data):
         fields.append("done = ?")
         values.append(int(data["done"]))
     if fields:
-        values.append(todo_id)
+        values.extend([todo_id, user_id])
         conn.execute(
-            f"UPDATE todos SET {', '.join(fields)} WHERE id = ?",
+            f"UPDATE todos SET {', '.join(fields)} WHERE id = ? AND user_id = ?",
             values,
         )
         conn.commit()
-    return get_todo(todo_id)
+    return get_todo(todo_id, user_id)
 
 
-def delete_todo(todo_id):
-    conn.execute("DELETE FROM todos WHERE id = ?", (todo_id,))
+def delete_todo(todo_id, user_id=None):
+    conn.execute(
+        "DELETE FROM todos WHERE id = ? AND user_id = ?",
+        (todo_id, user_id),
+    )
     conn.commit()
 
 # 注册用户,返回用户 ID
