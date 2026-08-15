@@ -4,6 +4,7 @@ import os
 import sys
 
 from fastapi import Depends, FastAPI, HTTPException, Path, Query
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
@@ -21,6 +22,18 @@ tags_metadata = [
 app = FastAPI(title="Todo API", version="0.4.0", openapi_tags=tags_metadata)
 database.init_db()
 bearer_scheme = HTTPBearer()
+
+cors_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "*").split(",")
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class TodoCreate(BaseModel):

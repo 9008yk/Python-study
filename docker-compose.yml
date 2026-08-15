@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-me-please-32-bytes-min}
+      - TODOS_DB=/app/data/todos.db
+      - CORS_ORIGINS=*
+    volumes:
+      - ./data:/app/data

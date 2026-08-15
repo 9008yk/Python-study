@@ -1,8 +1,13 @@
 """SQLite 数据库操作封装。"""
 
+import os
 import sqlite3
 
-DB_FILE = "todos.db"
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DB_FILE = os.getenv("TODOS_DB", "todos.db")
 conn = sqlite3.connect(DB_FILE, check_same_thread=False)
 
 

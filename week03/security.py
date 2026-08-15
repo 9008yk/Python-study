@@ -4,10 +4,17 @@ import hashlib
 import os
 from datetime import datetime, timedelta, timezone
 
+from dotenv import load_dotenv
+
 import jwt
 
+load_dotenv()
+
 # 签名密钥，token 真伪全靠它；现在是开发占位值，正式上线必须换成随机密钥并放环境变量
-SECRET_KEY = "dev-secret-key-change-me-please-32-bytes-min"
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "dev-secret-key-change-me-please-32-bytes-min",
+)
 # 对称签名算法
 ALGORITHM = "HS256"
 TOKEN_EXPIRE_MINUTES = 60

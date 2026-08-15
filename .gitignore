@@ -20,3 +20,5 @@ Thumbs.db
 todo.txt
 todos.db
 *.db
+.env
+data/

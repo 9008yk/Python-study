@@ -17,3 +17,22 @@
 - 能用浏览器打开 `/docs` 调试接口
 - 能用 pytest 测试接口
 - 能把数据存进 SQLite 而不是内存列表
+
+## 部署
+
+本地生产模式启动：
+
+```powershell
+.venv\Scripts\Activate.ps1
+python -m uvicorn week03.main:app --host 0.0.0.0 --port 8000
+```
+
+通过环境变量配置密钥和数据库位置，参考 `.env.example`。
+
+Docker 启动：
+
+```powershell
+docker compose up --build
+```
+
+启动后访问 http://localhost:8000/docs。
